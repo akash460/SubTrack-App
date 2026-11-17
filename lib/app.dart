@@ -1,22 +1,24 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:subtrack/features/home/home_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:subtrack/core/router/app_router.dart';
+import 'package:subtrack/core/theme/app_theme.dart';
+import 'package:subtrack/core/theme/theme_provider.dart';
 
-class SubTrackApp extends StatelessWidget {
+class SubTrackApp extends ConsumerWidget {
   const SubTrackApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+    final themeMode = ref.watch(themeModeProvider);
+
+    return MaterialApp.router(
       title: 'SubTrack',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6750A4),
-          brightness: Brightness.light,
-        ),
-      ),
-      home: const HomeScreen(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
+      routerConfig: router,
     );
   }
 }
